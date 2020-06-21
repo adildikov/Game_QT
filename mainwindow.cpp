@@ -22,5 +22,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_Start_clicked()
 {
     GameMainWindow game(this);
+    game.setWindowTitle("Game");
     game.exec();
 }
