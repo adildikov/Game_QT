@@ -39,6 +39,7 @@ void GameMainWindow::enterRoom(int room){
     Room newRoom = _game->_maze->_rooms[room];
     ui->LocationName->setText(newRoom._name);
     ui->LocationDescription->setText(newRoom._description);
+    ui->BossDescription->setText(newRoom._bossdescription);
     if (newRoom._neighbourRooms[Direction::Room1] != -1){
         ui->Room1->setText(_game->_maze->_rooms[newRoom._neighbourRooms[Direction::Room1]]._name);
         ui->Room1->show();
