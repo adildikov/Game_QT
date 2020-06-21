@@ -103,7 +103,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="Room2_2">
+     <widget class="QPushButton" name="Room3">
       <property name="text">
        <string>Чиновник Василий</string>
       </property>
@@ -330,7 +330,7 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="LocationDiscription">
+      <widget class="QLabel" name="LocationDescription">
        <property name="text">
         <string/>
        </property>
