@@ -115,5 +115,7 @@ void GameMainWindow::show_money(int money)
 void GameMainWindow::on_Shop_clicked()
 {
     ShopWindow shop(this);
+    shop.setWindowTitle("Shop");
+    shop.setWindowIcon(QIcon(":/resource/img/shop_img.jpg"));
     shop.exec();
 }
