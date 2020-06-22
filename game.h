@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "hero.h"
+#include "item.h"
 
 
 

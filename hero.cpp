@@ -12,3 +12,36 @@ void Hero::move(Direction direction){
     _currentRoom =  _maze->_rooms[_currentRoom]._neighbourRooms[direction];
     hero_moved(_currentRoom);
 }
+
+void Hero::addItem(std::shared_ptr<Item> item)
+{
+    _inventory.append(item);
+    inventory_changed(_inventory);
+}
+
+QList<std::shared_ptr<Item> > Hero::getItems()
+{
+    return _inventory;
+}
+
+bool Hero::changeMoney(int delta)
+{
+    if (delta < 0){
+        if (_money > delta){
+            _money += delta;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        _money += delta;
+        return true;
+    }
+}
+
+int Hero::getMoney()
+{
+    return _money;
+}

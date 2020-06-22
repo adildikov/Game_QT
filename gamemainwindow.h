@@ -31,6 +31,10 @@ private slots:
 
     void on_Room4_clicked();
 
+    void show_inventory(QList<std::shared_ptr<Item>> items);
+
+    void show_money(int money);
+
 private:
     Ui::GameMainWindow *ui;
 };
