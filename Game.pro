@@ -24,7 +24,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     maze.cpp \
-    room.cpp
+    room.cpp \
+    shopwindow.cpp
 
 HEADERS += \
     food.h \
@@ -34,11 +35,13 @@ HEADERS += \
     item.h \
     mainwindow.h \
     maze.h \
-    room.h
+    room.h \
+    shopwindow.h
 
 FORMS += \
     gamemainwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    shopwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

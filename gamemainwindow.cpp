@@ -1,6 +1,7 @@
 #include "gamemainwindow.h"
 #include "ui_gamemainwindow.h"
 #include "mainwindow.h"
+#include "shopwindow.h"
 #include <QPixmap>
 
 GameMainWindow::GameMainWindow(QWidget *parent) :
@@ -109,4 +110,10 @@ void GameMainWindow::show_inventory(QList<std::shared_ptr<Item> > items)
 void GameMainWindow::show_money(int money)
 {
     ui->MoneyAmount->setText(QVariant(money).toString());
+}
+
+void GameMainWindow::on_Shop_clicked()
+{
+    ShopWindow shop(this);
+    shop.exec();
 }
