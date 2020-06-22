@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractTableModel>
+#include "gamemainwindow.h"
 
 namespace Ui {
 class ShopWindow;
@@ -43,6 +44,9 @@ private:
 
     Ui::ShopWindow *ui;
     QVector<ShopItemInfo> _inventory;
+
+private slots:
+    void showMoney(int money);
 };
 
 #endif // SHOPWINDOW_H

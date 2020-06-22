@@ -12,12 +12,18 @@ ShopWindow::ShopWindow(QWidget *parent) :
 
     ui->ShopView->setModel(new ShopModel(& _inventory, ui->ShopView));
     ui->ShopView->resizeColumnsToContents();
+    showMoney(25);
 
 }
 
 ShopWindow::~ShopWindow()
 {
     delete ui;
+}
+
+void ShopWindow::showMoney(int money)
+{
+    ui->MoneyValue->setText(QVariant(money).toString());
 }
 
 ShopItemInfo::ShopItemInfo(QString name, int price): _name(name), _price(price)

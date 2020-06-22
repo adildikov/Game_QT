@@ -75,6 +75,11 @@ void GameMainWindow::enterRoom(int room){
         ui->Room4->hide();
     }
 
+    if(newRoom._shop){
+        ui->Shop->show();
+    }else{
+        ui->Shop->hide();
+    }
 }
 
 

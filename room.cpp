@@ -1,7 +1,7 @@
 #include "room.h"
 
-Room::Room(QString roomName,QString roomDescr,QString bossDescr, int r1, int r2, int r3, int r4):_name(roomName),
-    _description(roomDescr), _bossdescription(bossDescr)
+Room::Room(QString roomName, QString roomDescr, QString bossDescr, bool shop, int r1, int r2, int r3, int r4):_name(roomName),
+    _description(roomDescr), _bossdescription(bossDescr), _shop(shop)
 {
         _neighbourRooms[Direction::Room1] = r1;
         _neighbourRooms[Direction::Room2] = r2;
