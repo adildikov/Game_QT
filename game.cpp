@@ -6,7 +6,7 @@ Game::Game()
 {
     _maze = new Maze();
     _hero = new Hero(_maze);
-    _hero->addItem(std::make_shared<Food>(Food("Кофе", "Успокаивает вас", 5)));
+    _hero->addItem(std::make_shared<Food>(Food("Кофе", "Немного успокаивает вас", 5)));
 }
 
 void Game::peekItem(Hero *hero, int itemIndex)
