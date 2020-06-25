@@ -13,7 +13,7 @@ public:
     Item(QString name, QString description);
     QString getName();
     QString getDescription();
-    virtual void consume() const = 0;
+    virtual void consume(Hero *hero) const = 0;
     virtual bool useOnce() const = 0;
 };
 

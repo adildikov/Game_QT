@@ -11,7 +11,7 @@ public:
 
     Food(QString name, QString description, int rage_change);
     bool useOnce() const override;
-    void consume() const override {};
+    void consume(Hero *hero) const override;
 };
 
 #endif // FOOD_H

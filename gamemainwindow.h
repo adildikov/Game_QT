@@ -35,6 +35,8 @@ private slots:
 
     void show_money(int money);
 
+    void show_rage(int money);
+
     void on_Shop_clicked();
 
 private:

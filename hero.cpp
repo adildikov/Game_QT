@@ -45,3 +45,24 @@ int Hero::getMoney()
 {
     return _money;
 }
+
+int Hero::getRage()
+{
+    return _rage;
+}
+
+void Hero::changeRage(int rage_delta)
+{
+    if (rage_delta < 0){
+        if (_rage > rage_delta){
+            _rage += rage_delta;
+        }
+        else{
+            _rage = 0;
+        }
+    }
+    else{
+        _rage += rage_delta;
+    }
+}
+

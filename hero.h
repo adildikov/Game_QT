@@ -2,6 +2,7 @@
 #define HERO_H
 
 class Item;
+class Food;
 #include "maze.h"
 #include <memory>
 #include <QObject>
@@ -22,11 +23,14 @@ public:
     QList<std::shared_ptr<Item>> getItems();
     bool changeMoney(int delta);
     int getMoney();
+    int getRage();
+    void changeRage(int rage_delta);
 
 signals:
     void hero_moved(int room);
     void inventory_changed(QList<std::shared_ptr<Item>> items);
     void money_changed(int money);
+    void rage_changed(int rage);
 
 };
 

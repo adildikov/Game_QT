@@ -23,7 +23,8 @@ GameMainWindow::GameMainWindow(QWidget *parent) :
     enterRoom(0);
     connect(_game->_hero, SIGNAL(hero_moved(int)), this, SLOT(enterRoom(int)));
     show_inventory(_game->_hero->_inventory);
-    show_money(_game->_hero->_money);
+    show_money(_game->_hero->getMoney());
+    show_rage(_game->_hero->getRage());
 }
 
 GameMainWindow::~GameMainWindow()
@@ -115,6 +116,11 @@ void GameMainWindow::show_inventory(QList<std::shared_ptr<Item> > items)
 void GameMainWindow::show_money(int money)
 {
     ui->MoneyAmount->setText(QVariant(money).toString());
+}
+
+void GameMainWindow::show_rage(int rage)
+{
+    ui->Rage_status->setValue(rage);
 }
 
 void GameMainWindow::on_Shop_clicked()

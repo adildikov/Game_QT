@@ -9,3 +9,8 @@ bool Food::useOnce() const
 {
     return true;
 }
+
+void Food::consume(Hero *hero) const
+{
+    hero->changeRage(_rage);
+}
