@@ -388,6 +388,42 @@
     <string>Использовать</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="PeekButton">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>510</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Взять</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="ItemsOnFloor">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>380</y>
+     <width>211</width>
+     <height>111</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="getDocument">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>460</y>
+     <width>111</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Взять справОчку</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     maze.cpp \
+    questitem.cpp \
     room.cpp \
     shopwindow.cpp
 
@@ -35,6 +36,7 @@ HEADERS += \
     item.h \
     mainwindow.h \
     maze.h \
+    questitem.h \
     room.h \
     shopwindow.h
 

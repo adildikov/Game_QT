@@ -14,3 +14,8 @@ QString Item::getDescription(){
     return _description;
 }
 
+void Item::peek(Hero *hero)
+{
+    hero->addItem(shared_from_this());
+}
+

@@ -2,7 +2,10 @@
 #include "ui_gamemainwindow.h"
 #include "mainwindow.h"
 #include "shopwindow.h"
+#include "questitem.h"
+#include <QMessageBox>
 #include <QPixmap>
+#include <iostream>
 
 GameMainWindow::GameMainWindow(QWidget *parent) :
     QDialog(parent),
@@ -25,6 +28,7 @@ GameMainWindow::GameMainWindow(QWidget *parent) :
     connect(_game->_hero, SIGNAL(money_changed(int)), this, SLOT(show_money(int)));
     connect(_game->_hero, SIGNAL(inventory_changed(QList<std::shared_ptr<Item>>)), this, SLOT(show_inventory(QList<std::shared_ptr<Item>>)));
     connect(_game->_hero, SIGNAL(rage_changed(int)), this, SLOT(show_rage(int)));
+    connect(_game->_hero, SIGNAL(endGame()), this, SLOT(on_quit_clicked()));
     show_inventory(_game->_hero->_inventory);
     show_money(_game->_hero->getMoney());
     show_rage(_game->_hero->getRage());
@@ -84,6 +88,27 @@ void GameMainWindow::enterRoom(int room){
     }else{
         ui->Shop->hide();
     }
+
+    if(newRoom._bossdescription != ""){
+        ui->getDocument->show();
+    }else{
+        ui->getDocument->hide();
+    }
+
+
+    if(newRoom._ItemsOnFloor.size() > 0){
+        ui->ItemsOnFloor->clear();
+        ui->PeekButton->show();
+        ui->ItemsOnFloor->show();
+        for (int i = 0; i < newRoom._ItemsOnFloor.size();i++) {
+            ui->ItemsOnFloor->addItem(newRoom._ItemsOnFloor[i]->_name);
+        }
+
+    }else{
+        ui->PeekButton->hide();
+        ui->ItemsOnFloor->hide();
+    }
+
 }
 
 
@@ -105,7 +130,27 @@ void GameMainWindow::on_Room3_clicked()
 
 void GameMainWindow::on_Room4_clicked()
 {
-    _game->_hero->move(Direction::Room4);
+    if(ui->Room4->text() == "Выход"){
+        bool flag = false;
+        for (int i = 0; i < _game->_hero->_inventory.size() ;i++) {
+            if(_game->_hero->_inventory[i]->_name == "Справка ГТО-228"){
+                flag = true;
+                break;
+            }
+        }
+
+        if (flag){
+            _game->_hero->move(Direction::Room4);
+        }
+        else{
+            QMessageBox msgBox;
+            msgBox.setText("куда блять без справки?!");
+            msgBox.exec();
+        }
+
+    }else{
+        _game->_hero->move(Direction::Room4);
+    }
 }
 
 void GameMainWindow::show_inventory(QList<std::shared_ptr<Item> > items)
@@ -142,4 +187,140 @@ void GameMainWindow::on_useItem_clicked()
         return;
     }
     _game->_hero->useItem(currentIndex.row());
+}
+
+void GameMainWindow::on_PeekButton_clicked()
+{
+    QModelIndex currentIndex = ui->ItemsOnFloor->currentIndex();
+    if (!currentIndex.isValid()){
+        return;
+    }
+    _game->peekItem(_game->_hero, currentIndex.row());
+    ui->ItemsOnFloor->clear();
+    for (int i = 0; i < _game->_maze->_rooms[_game->_hero->_currentRoom]._ItemsOnFloor.size();i++) {
+        ui->ItemsOnFloor->addItem(_game->_maze->_rooms[_game->_hero->_currentRoom]._ItemsOnFloor[i]->_name);
+    }
+}
+
+void GameMainWindow::on_getDocument_clicked()
+{
+    int flag = 0;
+    int index;
+    QMessageBox msgBox;
+
+    for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+        if(_game->_hero->_inventory[i]->_name == "Ручка"){
+            flag++;
+            break;
+        }
+    }
+
+    if(_game->_hero->_currentRoom == 3){
+
+        for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+            if(_game->_hero->_inventory[i]->_name == "Бумага"){
+                flag++;
+                index = i;
+                break;
+            }
+        }
+
+
+        if(flag == 0){
+            msgBox.setText("У тебя ни ручки, ни бумаги. Хули ты от меня хочешь?");
+            _game->_hero->changeRage(15);
+        }else if(flag == 1){
+            msgBox.setText("Чего-то не хватает...");
+            _game->_hero->changeRage(10);
+        }else if(flag == 2){
+            msgBox.setText("Так уж и быть, держите свою справку");
+            _game->_hero->changeRage(5);
+            _game->_hero->addItem(std::make_shared<QuestItem>(QuestItem("Справка ГПК-001","Описание справки")));
+            _game->_hero->_inventory.removeAt(index);
+            _game->_hero->inventory_changed(_game->_hero->_inventory);
+            _game->_maze->_rooms[_game->_hero->_currentRoom]._bossdescription = "";
+            _game->_maze->_rooms[_game->_hero->_currentRoom]._description = "Петров съебался";
+            ui->getDocument->hide();
+        }
+    }else if(_game->_hero->_currentRoom == 4){
+
+        for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+            if(_game->_hero->_inventory[i]->_name == "Бумага"){
+                flag++;
+                index = i;
+                break;
+            }
+        }
+
+        for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+            if(_game->_hero->_inventory[i]->_name == "Справка ГПК-001"){
+                flag++;
+                break;
+            }
+        }
+
+        if(flag == 0){
+            msgBox.setText("У тебя ничего нет. Хули ты от меня хочешь?");
+            _game->_hero->changeRage(15);
+        }else if(flag == 1 || flag == 2){
+            msgBox.setText("Чего-то не хватает...");
+            _game->_hero->changeRage(10);
+        }else if(flag == 3){
+            msgBox.setText("Так уж и быть, держите свою справку");
+            _game->_hero->changeRage(5);
+            _game->_hero->addItem(std::make_shared<QuestItem>(QuestItem("Справка У-002","Описание справки")));
+            _game->_hero->_inventory.removeAt(index);
+            _game->_hero->inventory_changed(_game->_hero->_inventory);
+            _game->_maze->_rooms[_game->_hero->_currentRoom]._bossdescription = "";
+            _game->_maze->_rooms[_game->_hero->_currentRoom]._description = "Смирнов съебался";
+            ui->getDocument->hide();
+        }
+    }else if(_game->_hero->_currentRoom == 6){
+
+        for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+            if(_game->_hero->_inventory[i]->_name == "Бумага"){
+                flag++;
+                index = i;
+                break;
+            }
+        }
+
+        for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+            if(_game->_hero->_inventory[i]->_name == "Справка ГПК-001"){
+                flag++;
+                break;
+            }
+        }
+
+        for (int i = 0; i < _game->_hero->_inventory.size(); i++){
+            if(_game->_hero->_inventory[i]->_name == "Справка У-002"){
+                flag++;
+                break;
+            }
+        }
+
+        if(flag == 0){
+            msgBox.setText("У тебя ничего нет. Хули ты от меня хочешь?");
+            _game->_hero->changeRage(15);
+        }else if(flag == 1 || flag == 2 || flag == 3){
+            msgBox.setText("Чего-то не хватает...");
+            _game->_hero->changeRage(10);
+        }else if(flag == 4){
+            msgBox.setText("Так уж и быть, держите свою справку");
+            _game->_hero->changeRage(5);
+            _game->_hero->addItem(std::make_shared<QuestItem>(QuestItem("Справка ГТО-228","Описание справки")));
+            _game->_hero->_inventory.removeAt(index);
+            _game->_hero->inventory_changed(_game->_hero->_inventory);
+            _game->_maze->_rooms[_game->_hero->_currentRoom]._bossdescription = "";
+            _game->_maze->_rooms[_game->_hero->_currentRoom]._description = "Слутин съебался";
+            ui->getDocument->hide();
+        }
+    }
+    msgBox.exec();
+    if (_game->_hero->_rage >= 100){
+        msgBox.setText("Вы слишком перенервничали");
+        msgBox.exec();
+        _game->_hero->endGame();
+    }
+
 }

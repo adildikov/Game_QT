@@ -13,6 +13,8 @@ public:
     Hero* _hero;
     Maze* _maze;
 
+    void peekItem(Hero *hero, int itemIndex);
+
 };
 
 #endif // GAME_H

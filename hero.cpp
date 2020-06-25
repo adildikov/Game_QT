@@ -1,6 +1,8 @@
 #include "hero.h"
 #include "food.h"
 
+#include <QMessageBox>
+
 Hero::Hero(Maze* maze, QObject *parent) : QObject(parent), _maze(maze)
 {
     _currentRoom = 0;
@@ -64,6 +66,9 @@ void Hero::changeRage(int rage_delta)
     }
     else{
         _rage += rage_delta;
+        if(_rage >= 100){
+            _rage = 100;
+        }
     }
     rage_changed(_rage);
 }

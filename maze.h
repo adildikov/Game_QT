@@ -2,7 +2,6 @@
 #define MAZE_H
 
 #include "room.h"
-
 #include <QList>
 
 

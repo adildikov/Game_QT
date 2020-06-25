@@ -41,6 +41,10 @@ private slots:
 
     void on_useItem_clicked();
 
+    void on_PeekButton_clicked();
+
+    void on_getDocument_clicked();
+
 private:
     Ui::GameMainWindow *ui;
 };

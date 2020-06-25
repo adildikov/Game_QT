@@ -32,6 +32,7 @@ signals:
     void inventory_changed(QList<std::shared_ptr<Item>> items);
     void money_changed(int money);
     void rage_changed(int rage);
+    void endGame();
 
 };
 
