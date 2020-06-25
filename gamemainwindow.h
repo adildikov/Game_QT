@@ -35,9 +35,11 @@ private slots:
 
     void show_money(int money);
 
-    void show_rage(int money);
+    void show_rage(int rage);
 
     void on_Shop_clicked();
+
+    void on_useItem_clicked();
 
 private:
     Ui::GameMainWindow *ui;

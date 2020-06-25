@@ -355,8 +355,8 @@
   <widget class="QPushButton" name="Shop">
    <property name="geometry">
     <rect>
-     <x>735</x>
-     <y>512</y>
+     <x>210</x>
+     <y>500</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -368,6 +368,24 @@
    </property>
    <property name="text">
     <string>Магазин</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="useItem">
+   <property name="geometry">
+    <rect>
+     <x>732</x>
+     <y>512</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Использовать</string>
    </property>
   </widget>
  </widget>

@@ -1,17 +1,19 @@
 #include "shopwindow.h"
 #include "ui_shopwindow.h"
+#include "food.h"
+#include <iostream>
 
-ShopWindow::ShopWindow(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ShopWindow)
+ShopWindow::ShopWindow(QWidget *parent, Hero* hero) :
+    QDialog(parent), ui(new Ui::ShopWindow), _hero(hero)
 {
     ui->setupUi(this);
 
-    _inventory<<ShopItemInfo("Сэндвич", 10)<<ShopItemInfo("Кофе", 5);
+    _inventory<<ShopItemInfo("Сэндвич", "Вкусный сендвич, успокоит вас на 10", 15, 10)<<ShopItemInfo("Кофе", "Ароматный кофе 3 в 1, который немного успокоит вас", 5, 5);
 
 
     ui->ShopView->setModel(new ShopModel(& _inventory, ui->ShopView));
     ui->ShopView->resizeColumnsToContents();
+    ui->MoneyValue->setText(QVariant(_hero->_money).toString());
 }
 
 ShopWindow::~ShopWindow()
@@ -25,7 +27,8 @@ void ShopWindow::showMoney(int money)
 }
 
 
-ShopItemInfo::ShopItemInfo(QString name, int price): _name(name), _price(price)
+ShopItemInfo::ShopItemInfo(QString name, QString description, int rage_change, int price): _name(name), _description(description),
+    _rage(rage_change), _price(price)
 {
 
 }
@@ -75,4 +78,25 @@ QVariant ShopModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+void ShopWindow::on_Buy_clicked()
+{
+    QModelIndex currentIndex = ui->ShopView->currentIndex();
+    if(!currentIndex.isValid())
+    {
+        return;
+    }
+    int currentRow = currentIndex.row();
+    currentRow++;
+    if (_hero->changeMoney(-1 *_inventory[currentRow - 1]._price)){
+        _hero->addItem(std::make_shared<Food>(Food(_inventory[currentRow - 1]._name, _inventory[currentRow - 1]._description
+                                                   , _inventory[currentRow - 1]._rage)));
+        _hero->money_changed(-1 * _inventory[currentRow - 1]._price);
+        _hero->inventory_changed(_hero->_inventory);
+        ui->MoneyValue->setText(QVariant(_hero->_money).toString());
+    }
+    else{
+        return;
+    }
 }

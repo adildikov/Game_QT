@@ -22,6 +22,9 @@ GameMainWindow::GameMainWindow(QWidget *parent) :
     _game = new Game();
     enterRoom(0);
     connect(_game->_hero, SIGNAL(hero_moved(int)), this, SLOT(enterRoom(int)));
+    connect(_game->_hero, SIGNAL(money_changed(int)), this, SLOT(show_money(int)));
+    connect(_game->_hero, SIGNAL(inventory_changed(QList<std::shared_ptr<Item>>)), this, SLOT(show_inventory(QList<std::shared_ptr<Item>>)));
+    connect(_game->_hero, SIGNAL(rage_changed(int)), this, SLOT(show_rage(int)));
     show_inventory(_game->_hero->_inventory);
     show_money(_game->_hero->getMoney());
     show_rage(_game->_hero->getRage());
@@ -115,7 +118,8 @@ void GameMainWindow::show_inventory(QList<std::shared_ptr<Item> > items)
 
 void GameMainWindow::show_money(int money)
 {
-    ui->MoneyAmount->setText(QVariant(money).toString());
+    int current_money = QVariant(ui->MoneyAmount->text()).toInt();
+    ui->MoneyAmount->setText(QVariant(current_money + money).toString());
 }
 
 void GameMainWindow::show_rage(int rage)
@@ -125,8 +129,17 @@ void GameMainWindow::show_rage(int rage)
 
 void GameMainWindow::on_Shop_clicked()
 {
-    ShopWindow shop(this);
+    ShopWindow shop(this, _game->_hero);
     shop.setWindowTitle("Shop");
     shop.setWindowIcon(QIcon(":/resource/img/shop_img.jpg"));
     shop.exec();
+}
+
+void GameMainWindow::on_useItem_clicked()
+{
+    QModelIndex currentIndex = ui->InventoryList->currentIndex();
+    if (!currentIndex.isValid()){
+        return;
+    }
+    _game->_hero->useItem(currentIndex.row());
 }

@@ -1,10 +1,11 @@
 #include "hero.h"
+#include "food.h"
 
 Hero::Hero(Maze* maze, QObject *parent) : QObject(parent), _maze(maze)
 {
     _currentRoom = 0;
     _rage = 15;
-    _money = 4;
+    _money = 49;
 }
 
 
@@ -27,7 +28,7 @@ QList<std::shared_ptr<Item> > Hero::getItems()
 bool Hero::changeMoney(int delta)
 {
     if (delta < 0){
-        if (_money > delta){
+        if (_money > -1 * delta){
             _money += delta;
             return true;
         }
@@ -54,7 +55,7 @@ int Hero::getRage()
 void Hero::changeRage(int rage_delta)
 {
     if (rage_delta < 0){
-        if (_rage > rage_delta){
+        if (_rage > -1 * rage_delta){
             _rage += rage_delta;
         }
         else{
@@ -63,6 +64,16 @@ void Hero::changeRage(int rage_delta)
     }
     else{
         _rage += rage_delta;
+    }
+    rage_changed(_rage);
+}
+
+void Hero::useItem(int index)
+{
+    _inventory[index]->consume(this);
+    if (_inventory[index]->useOnce()){
+        _inventory.removeAt(index);
+        inventory_changed(_inventory);
     }
 }
 

@@ -11,8 +11,10 @@ class ShopWindow;
 
 struct ShopItemInfo{
     ShopItemInfo() = default;
-    ShopItemInfo(QString name, int price);
+    ShopItemInfo(QString name, QString description, int rage_change, int price);
     QString _name;
+    QString _description;
+    int _rage;
     int _price;
 };
 
@@ -37,16 +39,18 @@ class ShopWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShopWindow(QWidget *parent = nullptr);
+    explicit ShopWindow(QWidget *parent = nullptr, Hero* hero = nullptr);
     ~ShopWindow();
 
 private:
 
     Ui::ShopWindow *ui;
+    Hero* _hero;
     QVector<ShopItemInfo> _inventory;
 
 private slots:
     void showMoney(int money);
+    void on_Buy_clicked();
 };
 
 #endif // SHOPWINDOW_H

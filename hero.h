@@ -25,6 +25,7 @@ public:
     int getMoney();
     int getRage();
     void changeRage(int rage_delta);
+    void useItem(int index);
 
 signals:
     void hero_moved(int room);

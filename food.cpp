@@ -12,5 +12,5 @@ bool Food::useOnce() const
 
 void Food::consume(Hero *hero) const
 {
-    hero->changeRage(_rage);
+    hero->changeRage(-1 * _rage);
 }
